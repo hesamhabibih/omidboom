@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model posts {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int      @map("__v")
+  /// Could not determine type: the field only had null or empty values in the sample set.
+  author    Json?
+  content   String
+  createdAt DateTime @db.Date
+  name      String
+  title     String
+}
+
+model roles {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  v    Int    @map("__v")
+  name String
+}
+
+model tenant {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  subdomain String
+}
+
+model users {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  v        Int      @map("__v")
+  email    String
+  password String
+  roles    String[]
+  username String
+}
